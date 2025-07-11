@@ -12,7 +12,6 @@ Route::get('/', function () {
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
-Route::post('/register', [AuthController::class, 'create'])->name('create.submit');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
@@ -41,4 +40,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lecturer/dashboard', [LecturerController::class, 'index']);
     Route::get('/student/dashboard', [StudentController::class, 'index']);
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/lecturer/groups', [LecturerController::class, 'groups'])->name('lecturer.groups');
+    Route::get('/lecturer/students', [LecturerController::class, 'students'])->name('lecturer.students');
 });
