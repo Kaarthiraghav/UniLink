@@ -21,12 +21,17 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 // Group management routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/groups', [AdminController::class, 'groups'])->name('groups.list');
-    Route::get('/admin/groups/{group}/rename', [AdminController::class, 'showRenameGroup'])->name('groups.rename');
-    Route::post('/admin/groups/{group}/rename', [AdminController::class, 'renameGroup'])->name('groups.rename.submit');
     Route::delete('/admin/groups/{group}', [AdminController::class, 'deleteGroup'])->name('groups.delete');
-    Route::get('/admin/groups/{group}/add-users', [AdminController::class, 'showAddUsers'])->name('groups.addUsers');
-    Route::post('/admin/groups/{group}/add-users', [AdminController::class, 'addUsers'])->name('groups.addUsers.submit');
+    Route::get('/admin/group/{group}/edit', [AdminController::class, 'editGroup'])->name('groups.edit');
+    Route::post('/admin/groups/{group}/edit', [AdminController::class, 'updateGroup'])->name('groups.update');
     Route::post('/admin/groups/create', [AdminController::class, 'createGroup'])->name('group.create');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('users.list');
+    Route::delete('/admin/users/{user}', [AdminController::class, 'deleteUser'])->name('users.delete');
+    Route::get('/admin/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
+    Route::post('/admin/users/{user}/edit', [AdminController::class, 'updateUser'])->name('users.update');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');

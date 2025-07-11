@@ -22,13 +22,12 @@
                         @endforeach
                     </td>
                     <td>
-                        <a href="{{ route('groups.rename', $group->id) }}" class="btn btn-warning btn-sm">Rename</a>
                         <form action="{{ route('groups.delete', $group->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this group?')">Delete</button>
                         </form>
-                        <a href="{{ route('groups.addUsers', $group->id) }}" class="btn btn-success btn-sm">Add Users</a>
+                        <a href="{{ route('groups.edit', $group->id) }}" class="btn btn-warning btn-sm">Edit</a>
                     </td>
                 </tr>
             @endforeach

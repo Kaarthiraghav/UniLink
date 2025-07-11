@@ -14,44 +14,53 @@ class AdminController extends Controller
         return view('admin.groups', compact('groups'));
     }
 
-    public function showRenameGroup(Group $group)
-    {
-        return view('admin.rename-group', compact('group'));
-    }
-
-    public function renameGroup(Request $request, Group $group)
-    {
-        $request->validate(['name' => 'required|string|max:255']);
-        $group->name = $request->name;
-        $group->save();
-        return redirect()->route('groups.list')->with('success', 'Group renamed successfully.');
-    }
-
     public function deleteGroup(Group $group)
     {
-        $group->delete();
+        $group->users()->detach(); // Detach all users from the group
+        $group->delete(); // Delete the group
         return redirect()->route('groups.list')->with('success', 'Group deleted successfully.');
     }
 
-    public function showAddUsers(Group $group)
+    public function editGroup(Group $group)
     {
-        $lecturers = User::whereHas('role', function ($query) {
-            $query->where('name', 'lecturer');
+        // Get all lecturers
+        $lecturers = User::whereHas('role', function ($q) {
+            $q->where('name', 'lecturer');
         })->get();
-        $students = User::whereHas('role', function ($query) {
-            $query->where('name', 'student');
+
+        // Get all students
+        $students = User::whereHas('role', function ($q) {
+            $q->where('name', 'student');
         })->get();
-        return view('admin.add-users', compact('group', 'lecturers', 'students'));
+
+        // Get IDs of lecturers in this group
+        $groupLecturerIds = $group->users()->whereHas('role', function ($q) {
+            $q->where('name', 'lecturer');
+        })->pluck('users.id')->toArray();
+
+        // Get IDs of students in this group
+        $groupStudentIds = $group->users()->whereHas('role', function ($q) {
+            $q->where('name', 'student');
+        })->pluck('users.id')->toArray();
+
+        return view('admin.editGroup', compact('group', 'lecturers', 'students', 'groupLecturerIds', 'groupStudentIds'));
     }
 
-    public function addUsers(Request $request, Group $group)
+    public function users()
     {
-        $request->validate([
-            'user_ids' => 'required|array',
-            'user_ids.*' => 'exists:users,id',
-        ]);
-        $group->users()->syncWithoutDetaching($request->user_ids);
-        return redirect()->route('groups.list')->with('success', 'Users added to group successfully.');
+        $users = User::with('role')->get();
+        return view('admin.users', compact('users'));
+    }
+
+    public function deleteUser(User $user)
+    {
+        $user->delete();
+        return redirect()->route('users.list')->with('success', 'User deleted successfully.');
+    }
+
+    public function editUser(User $user)
+    {
+        return view('admin.editUser', compact('user'));
     }
 
     public function index()
