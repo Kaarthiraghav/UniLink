@@ -46,3 +46,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lecturer/groups', [LecturerController::class, 'groups'])->name('lecturer.groups');
     Route::get('/lecturer/students', [LecturerController::class, 'students'])->name('lecturer.students');
 });
+
+Broadcast::routes();
