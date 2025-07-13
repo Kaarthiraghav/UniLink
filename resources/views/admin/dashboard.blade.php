@@ -4,7 +4,7 @@
         <div class="card flex-fill" style="max-width: 600px; min-width: 320px; min-height: 600px;">
             <div class="card-header">Add New User</div>
             <div class="card-body p-4">
-                <form method="POST" action="{{ route('create.submit') }}">
+                <form method="POST" action="{{ route('users.create') }}">
                     @csrf
 
                     <div class="mb-3">

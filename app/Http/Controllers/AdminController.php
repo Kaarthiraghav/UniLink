@@ -93,4 +93,25 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Group created with students and lecturers.');
     }
 
+    public function createUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|exists:roles,name',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        // Attach the role to the user
+        $user->roles()->attach($request->role);
+
+        return redirect()->route('users.list')->with('success', 'User created successfully.');
+    }
+
 }

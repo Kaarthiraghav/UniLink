@@ -17,6 +17,7 @@
             @elseif($role === 3)
                 <li class="nav-item"><a class="nav-link" href="/student/dashboard">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="/student/groups">My Groups</a></li>
+                <li class="nav-item"><a class="nav-link" href="/student/lecturers">My Chats</a></li>
                 <li class="nav-item"><a class="nav-link" href="/student/profile">Profile</a></li>
             @endif
         </ul>
