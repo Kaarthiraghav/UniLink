@@ -46,6 +46,21 @@ class AdminController extends Controller
         return view('admin.editGroup', compact('group', 'lecturers', 'students', 'groupLecturerIds', 'groupStudentIds'));
     }
 
+    public function updateGroup(Request $request, $groupId)
+    {
+        $group = Group::findOrFail($groupId);
+        $group->name = $request->input('group_name');
+        $group->save();
+
+        // Sync lecturers and students via pivot table
+        $lecturerIds = $request->input('lecturers', []);
+        $studentIds = $request->input('students', []);
+        $allUserIds = array_merge($lecturerIds, $studentIds);
+        $group->users()->sync($allUserIds);
+
+        return redirect()->route('groups.edit', $groupId)->with('success', 'Group updated successfully.');
+    }
+
     public function users()
     {
         $users = User::with('role')->get();
@@ -113,5 +128,6 @@ class AdminController extends Controller
 
         return redirect()->route('users.list')->with('success', 'User created successfully.');
     }
+
 
 }

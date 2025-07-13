@@ -26,7 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/groups', [AdminController::class, 'groups'])->name('groups.list');
     Route::delete('/admin/groups/{group}', [AdminController::class, 'deleteGroup'])->name('groups.delete');
     Route::get('/admin/group/{group}/edit', [AdminController::class, 'editGroup'])->name('groups.edit');
-    Route::post('/admin/groups/{group}/edit', [AdminController::class, 'updateGroup'])->name('groups.update');
+    Route::match(['post', 'put'], '/admin/groups/{group}/edit', [AdminController::class, 'updateGroup'])->name('groups.update');
     Route::post('/admin/groups/create', [AdminController::class, 'createGroup'])->name('group.create');
 });
 
@@ -44,6 +44,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index']);
     Route::get('/lecturer/dashboard', [LecturerController::class, 'index']);
     Route::get('/student/dashboard', [StudentController::class, 'index']);
+    Route::get('/student/groups', function() {
+        $user = auth()->user();
+        $groups = $user->groups;
+        return view('student.groups', compact('groups'));
+    })->name('student.groups');
+    Route::get('/student/lecturers', function() {
+        $lecturerRoleId = \App\Models\Role::where('name', 'lecturer')->value('id');
+        $lecturers = \App\Models\User::where('role_id', $lecturerRoleId)->get();
+        return view('student.lecturers', compact('lecturers'));
+    })->name('student.lecturers');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('REVERB_SERVER', 'log'),
+    'default' => env('REVERB_SERVER', 'reverb'),
 
     /*
     |--------------------------------------------------------------------------

@@ -12,6 +12,11 @@ class PrivateChatController extends Controller
     {
         $user = auth()->user();
         $other = User::findOrFail($userId);
+        // Restrict students from chatting with other students
+        $studentRoleId = \App\Models\Role::where('name', 'student')->value('id');
+        if ($user->role_id == $studentRoleId && $other->role_id == $studentRoleId) {
+            abort(403, 'Students can only chat privately with lecturers.');
+        }
         $chat = PrivateChat::firstOrCreate([
             'user_one_id' => min($user->id, $other->id),
             'user_two_id' => max($user->id, $other->id)
@@ -25,6 +30,10 @@ class PrivateChatController extends Controller
         $request->validate(['message' => 'required|string|max:1000']);
         $user = auth()->user();
         $other = User::findOrFail($userId);
+        $studentRoleId = \App\Models\Role::where('name', 'student')->value('id');
+        if ($user->role_id == $studentRoleId && $other->role_id == $studentRoleId) {
+            abort(403, 'Students can only chat privately with lecturers.');
+        }
         $chat = PrivateChat::firstOrCreate([
             'user_one_id' => min($user->id, $other->id),
             'user_two_id' => max($user->id, $other->id)
