@@ -27,7 +27,7 @@
 
 - **Backend**: Laravel (PHP)
 - **Frontend**: Blade templating engine
-- **Database**: MySQL / MariaDB
+- **Database**: MySQL
 - **Authentication**: Laravel Auth (session-based)
 - **Tools**: ChatGPT, GitHub Copilot
 
@@ -40,5 +40,3 @@
 | Admin    | Manage users and groups (no messaging ability)                          |
 | Lecturer | Message students directly and participate in assigned group discussions |
 | Student  | Message lecturers and engage in group chats                             |
-
----
