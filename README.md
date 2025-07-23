@@ -35,22 +35,31 @@
 
 ---
 
-## 👥 User Roles & Permissions
+## ⚙️ Prerequisites
 
-| Role     | Abilities                                                               |
-|----------|-------------------------------------------------------------------------|
-| Admin    | Create users and groups (no messaging capabilities)                     |
-| Lecturer | Message students 1-to-1 and participate in assigned group discussions   |
-| Student  | Message lecturers 1-to-1 and communicate within assigned groups         |
+Before setting up the project, ensure the following software is installed:
+
+- [**XAMPP**](https://www.apachefriends.org/index.html) – Provides PHP and MySQL
+- [**Composer**](https://getcomposer.org/) – PHP dependency manager
+- [**Node.js**](https://nodejs.org/) – JavaScript runtime (npm comes bundled)
+
+> ✅ After installation, verify:
+> ```bash
+> php -v
+> composer -V
+> npm -v
+> ```
 
 ---
 
 ## ⚙️ Project Setup
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/Kaarthiraghav/UniLink.git
 cd UniLink
+
 ```
 
 ### 2. Install Dependencies
